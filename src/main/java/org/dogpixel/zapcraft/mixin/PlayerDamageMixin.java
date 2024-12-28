@@ -1,5 +1,6 @@
 package org.dogpixel.zapcraft.mixin;
 
+import org.dogpixel.zapcraft.ConfigHandler;
 import org.dogpixel.zapcraft.DamageEventHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -20,16 +21,29 @@ public abstract class PlayerDamageMixin {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) (Object) this;
 
-            float amt = amount - 1;
-            System.out.println(player.getRecentDamageSource());
+            // Get the minimum damage threshold and vibe enable flag from the config
+            float minDamageThreshold = ConfigHandler.getFloat("min_damage_threshold", 0.5f);
+            boolean vibeBelowThreshold = ConfigHandler.getBoolean("vibe_below_threshold", false);
 
-            // Calculate if this damage will cause the player's death
-            boolean isDead = (player.getHealth() - amount) <= 0;
+            if (amount > minDamageThreshold) {
+                // Damage is above threshold, handle normally
+                float adjustedAmount = amount;
+                System.out.println(player.getRecentDamageSource());
 
-            System.out.println("Player took damage: " + amt + ", isDead: " + isDead);
+                // Calculate if this damage will cause the player's death
+                boolean isDead = (player.getHealth() - amount) <= 0;
 
-            // Pass damage amount and death status to the damage handler
-            DamageEventHandler.sendApiRequest(amt, isDead);
+                System.out.println("Player took damage: " + adjustedAmount + ", isDead: " + isDead);
+
+                // Pass damage amount and death status to the damage handler
+                DamageEventHandler.sendApiRequest(adjustedAmount, isDead);
+            } else if ((amount <= minDamageThreshold) & (vibeBelowThreshold)) {
+                // Damage is below threshold, send "vibe" stimulus
+                System.out.println("Damage below threshold. Sending vibe stimulus.");
+                DamageEventHandler.sendVibeStimulus("Damage below threshold: " + amount);
+            } else {
+                System.out.println("Damage below threshold. No action taken.");
+            }
         }
     }
 }

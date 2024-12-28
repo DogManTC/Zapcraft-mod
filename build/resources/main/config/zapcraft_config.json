@@ -3,5 +3,7 @@
   "pavlok_password": "securepassword",
   "min_zap_strength": 30,
   "max_zap_strength": 80,
-  "death_zap_strength": 100
+  "death_zap_strength": 100,
+  "min_damage_threshold": 0.5,
+  "vibe_below_threshold": true
 }
