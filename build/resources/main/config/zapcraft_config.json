@@ -1,0 +1,7 @@
+{
+  "pavlok_email": "user@example.com",
+  "pavlok_password": "securepassword",
+  "min_zap_strength": 30,
+  "max_zap_strength": 80,
+  "death_zap_strength": 100
+}
