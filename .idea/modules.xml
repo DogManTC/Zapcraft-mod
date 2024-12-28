@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.dogpixel.skibi.client.iml" filepath="$PROJECT_DIR$/.idea/modules/org.dogpixel.skibi.client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.dogpixel.skibi.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.dogpixel.skibi.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.dogpixel.skibi.test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.dogpixel.skibi.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/skibi.client.iml" filepath="$PROJECT_DIR$/.idea/modules/skibi.client.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/skibi.main.iml" filepath="$PROJECT_DIR$/.idea/modules/skibi.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/skibi.test.iml" filepath="$PROJECT_DIR$/.idea/modules/skibi.test.iml" />
