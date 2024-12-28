@@ -1,0 +1,2 @@
+Copyright (c) 2024 DogManTC, ChatGPT(bug fixes)
+All rights reserved.

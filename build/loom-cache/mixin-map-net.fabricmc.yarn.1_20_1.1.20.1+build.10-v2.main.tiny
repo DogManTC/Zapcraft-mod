@@ -1,0 +1,2 @@
+v1	named	intermediary
+METHOD	org/dogpixel/zapcraft/mixin/PlayerDamageMixin	(Lnet/minecraft/entity/damage/DamageSource;F)Z	damage	method_5643
