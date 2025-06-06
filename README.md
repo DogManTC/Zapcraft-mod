@@ -6,7 +6,7 @@
 </div>
 <p>with x being the raw amount of damage you take(half heart = 1, full heart = 2, etc), y being the minimum value you set in the config, and z being the max</p>
 <p>The way the Pavlok API works requires you to setup the device with the mobile app then has it recieve requests from the API and send them to the device via bluetooth, so keep your phone on hand. You will need to use the email and password that you used for your app account in the config file.</p>
-<p><strong>IDK KNOW IF THIS WORKS IN MULTIPLAYER. It should, but it might end up shocking the wrong person or shocking everyone or shocking no one or killing a random person, try at your own risk</strong></p>
+<p><strong>This mod now operates entirely on the client, so each player can safely use their own Pavlok device in multiplayer. Just install the mod and configure your credentials.</strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><a title="Others should work, idk" href="https://www.amazon.com/Pavlok-Shock-Clock-Customizable-App-Controlled/dp/B0BGYY45DY" target="_blank" rel="noopener">THE MODEL I USE, OTHERS MADE BY THEM SHOULD WORK BUT IDK</a></p>

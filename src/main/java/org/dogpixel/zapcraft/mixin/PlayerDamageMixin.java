@@ -2,6 +2,10 @@ package org.dogpixel.zapcraft.mixin;
 
 import org.dogpixel.zapcraft.ConfigHandler;
 import org.dogpixel.zapcraft.DamageEventHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Environment(EnvType.CLIENT)
 @Mixin(LivingEntity.class)
 public abstract class PlayerDamageMixin {
 
@@ -20,6 +25,14 @@ public abstract class PlayerDamageMixin {
     private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) (Object) this;
+
+            // Only process damage for the local player on the client
+            if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
+                return;
+            }
+            if (MinecraftClient.getInstance().player != player || !player.getWorld().isClient()) {
+                return;
+            }
 
             // Get the minimum damage threshold and vibe enable flag from the config
             float minDamageThreshold = ConfigHandler.getFloat("min_damage_threshold", 0.5f);
