@@ -2,6 +2,12 @@ package org.dogpixel.zapcraft.mixin;
 
 import org.dogpixel.zapcraft.ConfigHandler;
 import org.dogpixel.zapcraft.DamageEventHandler;
+import org.dogpixel.zapcraft.MultiplayerManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Environment(EnvType.CLIENT)
 @Mixin(LivingEntity.class)
 public abstract class PlayerDamageMixin {
 
@@ -21,13 +28,33 @@ public abstract class PlayerDamageMixin {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) (Object) this;
 
+            // Only process damage for the local player on the client
+            if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
+                return;
+            }
+            if (MinecraftClient.getInstance().player != player || !player.getWorld().isClient()) {
+                return;
+            }
+
+            // Allow global disable via config
+            if (!ConfigHandler.getBoolean("enabled", true)) {
+                return;
+            }
+
+            // Respect cooldown between shocks
+            if (!MultiplayerManager.canShock(player)) {
+                return;
+            }
+
             // Get the minimum damage threshold and vibe enable flag from the config
             float minDamageThreshold = ConfigHandler.getFloat("min_damage_threshold", 0.5f);
             boolean vibeBelowThreshold = ConfigHandler.getBoolean("vibe_below_threshold", false);
+            float multiplier = ConfigHandler.getFloat("shock_multiplier", 1.0f);
+            boolean chatFeedback = ConfigHandler.getBoolean("show_chat_feedback", true);
 
             if (amount > minDamageThreshold) {
                 // Damage is above threshold, handle normally
-                float adjustedAmount = amount;
+                float adjustedAmount = amount * multiplier;
                 System.out.println(player.getRecentDamageSource());
 
                 // Calculate if this damage will cause the player's death
@@ -37,12 +64,23 @@ public abstract class PlayerDamageMixin {
 
                 // Pass damage amount and death status to the damage handler
                 DamageEventHandler.sendApiRequest(adjustedAmount, isDead);
+                MultiplayerManager.recordShock(player);
+                if (chatFeedback) {
+                    player.sendMessage(Text.literal("Zapcraft: shock applied!"), false);
+                }
             } else if ((amount <= minDamageThreshold) & (vibeBelowThreshold)) {
                 // Damage is below threshold, send "vibe" stimulus
                 System.out.println("Damage below threshold. Sending vibe stimulus.");
                 DamageEventHandler.sendVibeStimulus("Damage below threshold: " + amount);
+                MultiplayerManager.recordShock(player);
+                if (chatFeedback) {
+                    player.sendMessage(Text.literal("Zapcraft: vibe stimulus"), false);
+                }
             } else {
                 System.out.println("Damage below threshold. No action taken.");
+                if (chatFeedback) {
+                    player.sendMessage(Text.literal("Zapcraft: no shock"), false);
+                }
             }
         }
     }

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "zapcraft",
+  "version": "0.3",
+  "name": "Zapcraft",
+  "description": "If you die in the game, you say 'Ouch that almost hurt a bit' in real life!!! *vine boom*",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/skibi/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.dogpixel.zapcraft.client.ZapcraftClient"
+    ]
+  },
+  "mixins": [
+    "zapcraft.mixins.json",
+    {
+      "config": "skibi.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "fabric": "*",
+    "minecraft": "1.20.1"
+  }
+}
