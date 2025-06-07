@@ -7,6 +7,19 @@
 <p>with x being the raw amount of damage you take(half heart = 1, full heart = 2, etc), y being the minimum value you set in the config, and z being the max</p>
 <p>The way the Pavlok API works requires you to setup the device with the mobile app then has it recieve requests from the API and send them to the device via bluetooth, so keep your phone on hand. You will need to use the email and password that you used for your app account in the config file.</p>
 <p><strong>This mod now operates entirely on the client, so each player can safely use their own Pavlok device in multiplayer. Just install the mod and configure your credentials.</strong></p>
+<p>New features:</p>
+<ul>
+<li>Toggle the mod on or off with the <code>enabled</code> setting</li>
+<li>Customize shock strength using <code>shock_multiplier</code></li>
+<li>Built in cooldown to prevent rapid shocks</li>
+<li>Optional chat feedback whenever a shock occurs</li>
+<li>Remote control support so friends can zap you</li>
+<li>Per player shock counters to track how many times you have been zapped</li>
+<li>Vibe stimulus counts toward your shock score</li>
+<li>Command hooks prepared for manual shocks</li>
+<li>Server safe &ndash; all logic runs on the client only</li>
+<li>Scoreboard sync when playing with others</li>
+</ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><a title="Others should work, idk" href="https://www.amazon.com/Pavlok-Shock-Clock-Customizable-App-Controlled/dp/B0BGYY45DY" target="_blank" rel="noopener">THE MODEL I USE, OTHERS MADE BY THEM SHOULD WORK BUT IDK</a></p>
