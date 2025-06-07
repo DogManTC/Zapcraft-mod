@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.minecraft.client.MinecraftClient;
 
 @Mixin(LivingEntity.class)
 public abstract class PlayerDamageMixin {
@@ -18,12 +19,16 @@ public abstract class PlayerDamageMixin {
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
-        if ((Object) this instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) (Object) this;
+        if ((Object) this instanceof PlayerEntity player && player.getWorld().isClient() && player == net.minecraft.client.MinecraftClient.getInstance().player) {
 
             // Get the minimum damage threshold and vibe enable flag from the config
             float minDamageThreshold = ConfigHandler.getFloat("min_damage_threshold", 0.5f);
             boolean vibeBelowThreshold = ConfigHandler.getBoolean("vibe_below_threshold", false);
+            boolean deathOnly = ConfigHandler.getBoolean("shock_on_death_only", false);
+
+            if (deathOnly && (player.getHealth() - amount) > 0) {
+                return;
+            }
 
             if (amount > minDamageThreshold) {
                 // Damage is above threshold, handle normally

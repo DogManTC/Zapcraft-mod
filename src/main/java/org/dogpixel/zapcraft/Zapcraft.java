@@ -21,6 +21,12 @@ public class Zapcraft implements ModInitializer {
         // Authenticate with Pavlok API
         DamageEventHandler.authenticate();
 
+        // Update connection status and optionally notify the player
+        DeviceManager.updateStatus();
+        if (ConfigHandler.getBoolean("beep_on_login", false)) {
+            DamageEventHandler.sendVibeStimulus("Login test");
+        }
+
         // Initialization complete
         System.out.println("Zapcraft mod initialized successfully, mixins are ready.");
     }
